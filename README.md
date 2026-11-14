@@ -1,68 +1,98 @@
 # 🔍 VisionInspect
 
-**Unsupervised Industrial Anomaly Detection & Defect Localization**
+## Unsupervised Industrial Defect Detection & Localization
 
-VisionInspect is a computer vision system for detecting and localizing visual defects in industrial products using a **PatchCore-style anomaly detection pipeline**.
+VisionInspect is a computer vision system for **industrial anomaly detection and defect localization** using normal-only learning, deep CNN feature embeddings, and PatchCore-style nearest-neighbour matching.
 
-The system learns from **normal images only** and identifies abnormal regions by comparing deep visual features against a memory bank of representative normal patterns.
+The system learns the visual distribution of normal industrial products and identifies abnormal regions without requiring labeled examples of every possible defect.
 
-The project currently supports three categories from the **MVTec Anomaly Detection dataset**:
+It currently supports three categories from the **MVTec Anomaly Detection dataset**:
 
 - 🍾 Bottle
 - 🌰 Hazelnut
 - 🧱 Tile
 
-VisionInspect provides both **image inspection** and **video inspection** through an interactive Streamlit application.
+VisionInspect supports both **image inspection** and **video inspection** through an interactive Streamlit application.
 
 ---
 
-## ✨ Features
+## 🚀 Live Project
 
-### Image Inspection
+### Live AI Demo
 
-Upload an industrial image and receive:
+https://visioninspect-aidetection.streamlit.app
+
+### Project Showcase
+
+https://muhammadtalha-pk.github.io/VisionInspect/
+
+### Source Code
+
+https://github.com/MuhammadTalha-pk/VisionInspect
+
+---
+
+## ✨ Main Features
+
+### 🖼️ Image Inspection
+
+Upload an image and receive:
 
 - NORMAL / ANOMALOUS classification
 - Image-level anomaly score
-- Category-specific decision threshold
+- Category-specific calibrated threshold
 - Patch-level anomaly heatmap
 - Defect localization overlay
 
-### Video Inspection
+### 🎯 Defect Localization
 
-Upload a video and VisionInspect can:
+VisionInspect reconstructs local PatchCore anomaly scores into a spatial heatmap.
 
-- Sample frames automatically
-- Run anomaly detection on sampled frames
-- Report anomalous-frame count
+The interface displays:
+
+1. Input image
+2. Anomaly heatmap
+3. Localization overlay
+
+### 🎬 Video Inspection
+
+VisionInspect also supports sampled-frame video analysis.
+
+The application can:
+
+- Sample every Nth video frame
+- Inspect each sampled frame independently
+- Count anomalous frames
 - Calculate anomaly rate
-- Display maximum anomaly score
-- Generate a temporal anomaly-score profile
-- Show the most anomalous video frame
-- Produce heatmap localization for the peak frame
+- Track anomaly scores over time
+- Display a temporal anomaly profile
+- Identify the most anomalous frame
+- Generate heatmap localization for the peak frame
 
-### Interactive Dashboard
+### 📊 Research Dashboard
 
-The Streamlit interface includes:
+The application includes:
 
-- Product-category selection
-- Image / Video inspection modes
-- Development benchmark metrics
+- Three-category benchmark comparison
+- Autoencoder vs PatchCore comparison
+- Coreset ablation study
+- Inference-time trade-off
+- Raw experimental results
 - Architecture explanation
-- Model configuration information
-- Responsive dark industrial-AI interface
 
 ---
 
 # 🧠 Methodology
 
-VisionInspect follows a PatchCore-style unsupervised anomaly detection approach.
+VisionInspect follows a PatchCore-style unsupervised anomaly detection pipeline.
 
 ## 1. Normal-Only Learning
 
-Only normal industrial training images are required.
+The system learns only from **normal training images**.
 
-The model does not need examples of every possible defect type.
+This is useful for industrial inspection because real manufacturing environments may have many possible defects while defect examples can be rare or unavailable.
+
+---
 
 ## 2. Deep Feature Extraction
 
@@ -72,14 +102,14 @@ A pretrained:
 
 is used as the visual backbone.
 
-Intermediate representations are extracted from:
+Features are extracted from:
 
 ```text
 layer2
 layer3
 ```
 
-For a `256 × 256` image:
+For a `256 × 256` input image:
 
 ```text
 layer2 → [512, 32, 32]
@@ -88,7 +118,7 @@ layer3 → [1024, 16, 16]
 
 The `layer3` representation is resized to match the spatial resolution of `layer2`.
 
-Both feature maps are then concatenated.
+The two representations are concatenated:
 
 ```text
 512 + 1024 = 1536 features
@@ -98,27 +128,25 @@ Both feature maps are then concatenated.
 
 ## 3. Local Patch Embeddings
 
-The fused feature representation is converted into local patch embeddings.
-
-Each image produces:
+The fused feature map contains:
 
 ```text
 32 × 32 = 1024 local patches
 ```
 
-Each patch initially contains a:
+Each patch initially has a:
 
 ```text
 1536-dimensional feature vector
 ```
 
-The embeddings are L2-normalized.
+These embeddings represent local visual patterns such as shape, texture, edges and structure.
 
 ---
 
 ## 4. Feature Projection
 
-The original embeddings are projected from:
+The local representation is projected from:
 
 ```text
 1536 dimensions
@@ -126,19 +154,17 @@ The original embeddings are projected from:
 128 dimensions
 ```
 
-This reduces memory requirements and improves nearest-neighbour computation efficiency.
-
-The projected representations are normalized again before anomaly scoring.
+The projected embeddings are L2-normalized before nearest-neighbour comparison.
 
 ---
 
 ## 5. PatchCore Memory Bank
 
-Normal training patches form the initial feature collection.
+Normal training embeddings form the initial feature collection.
 
-A subset of candidate embeddings is retained and a PatchCore-style coreset is constructed.
+A smaller representative memory bank is created using a PatchCore-style coreset selection procedure.
 
-The current configuration uses:
+Current configuration:
 
 ```text
 Candidate patches: 10,000
@@ -146,7 +172,7 @@ Memory bank:       500
 Embedding size:    128
 ```
 
-Each supported category has its own memory bank:
+Each category has its own memory bank:
 
 ```text
 patchcore_bottle_memory.pt
@@ -158,37 +184,35 @@ patchcore_tile_memory.pt
 
 ## 6. Nearest-Neighbour Anomaly Detection
 
-For each test patch, VisionInspect calculates its distance from the normal memory bank.
-
-The nearest normal embedding is identified.
-
-A large distance indicates that the patch differs from learned normal visual patterns.
+Every test patch is compared against the category-specific normal memory bank.
 
 Conceptually:
 
 ```text
-Test Patch
+Input Patch
     ↓
-Deep Embedding
+Deep Feature Embedding
     ↓
 Nearest Normal Memory Patch
     ↓
-Distance
+Feature-Space Distance
     ↓
 Patch Anomaly Score
 ```
+
+A larger distance means the patch differs more strongly from the learned normal distribution.
 
 ---
 
 ## 7. Image-Level Anomaly Score
 
-VisionInspect creates a spatial anomaly score for every patch.
+VisionInspect calculates a score for every local image patch.
 
-The image-level score is calculated from the most anomalous local regions.
+The image-level score is based on the most anomalous local regions.
 
-The current implementation uses the average score of approximately the **top 1% most anomalous patches**.
+The current implementation uses approximately the **top 1% most anomalous patches**.
 
-The final score is compared with a category-specific threshold.
+The decision rule is:
 
 ```text
 score < threshold
@@ -204,15 +228,15 @@ score >= threshold
 
 # 🎯 Defect Localization
 
-The patch anomaly scores form a:
+Patch anomaly scores form a spatial anomaly map.
+
+The original patch grid is:
 
 ```text
 32 × 32
 ```
 
-anomaly map.
-
-The map is interpolated to:
+It is interpolated to:
 
 ```text
 256 × 256
@@ -220,21 +244,13 @@ The map is interpolated to:
 
 and smoothed for visualization.
 
-VisionInspect displays:
-
-1. Original/preprocessed image
-2. Anomaly heatmap
-3. Localization overlay
-
-Warmer heatmap regions represent stronger deviations from the learned normal feature distribution.
+Warmer regions in the heatmap indicate stronger feature-space deviation from the normal memory bank.
 
 ---
 
-# 🎬 Video Inspection
+# 🎬 Video Inspection Pipeline
 
-Video inspection reuses the same image anomaly-detection pipeline.
-
-Instead of analyzing every frame, VisionInspect can sample every Nth frame to keep CPU inference practical.
+Video inspection reuses the image anomaly-detection pipeline.
 
 ```text
 Video
@@ -243,7 +259,9 @@ Frame Sampling
   ↓
 Image Preprocessing
   ↓
-WideResNet Features
+WideResNet50-2
+  ↓
+Patch Embeddings
   ↓
 PatchCore Scoring
   ↓
@@ -252,21 +270,13 @@ Frame Anomaly Score
 Temporal Anomaly Profile
 ```
 
-The system reports:
-
-- Number of analyzed frames
-- Number of anomalous frames
-- Maximum anomaly score
-- Overall video inspection result
-- Temporal anomaly-score graph
-- Most anomalous frame
-- Localization overlay for the peak frame
+Sampling frames instead of analyzing every frame keeps CPU inference practical for the web demo.
 
 ---
 
 # 📊 Development Evaluation
 
-VisionInspect was evaluated on three categories from the MVTec Anomaly Detection dataset.
+VisionInspect was evaluated on three MVTec AD categories.
 
 | Category | Image AUROC | Pixel AUROC |
 |---|---:|---:|
@@ -275,7 +285,13 @@ VisionInspect was evaluated on three categories from the MVTec Anomaly Detection
 | Tile | **1.0000** | **0.9428** |
 | **Average** | **1.0000** | **0.9696** |
 
-These results apply only to the three evaluated categories and should **not** be interpreted as results for the complete MVTec benchmark.
+Average F1 across the three evaluated categories:
+
+```text
+0.983
+```
+
+These results apply only to the three implemented categories and should **not** be interpreted as performance on the complete MVTec benchmark.
 
 ---
 
@@ -283,9 +299,9 @@ These results apply only to the three evaluated categories and should **not** be
 
 Initial percentile-based thresholds produced false positives for some normal images.
 
-Additional normal-validation calibration was therefore performed.
+Additional validation-based threshold calibration was therefore performed.
 
-The deployment/demo thresholds currently used are:
+Current deployment/demo thresholds:
 
 | Category | Threshold | Calibration |
 |---|---:|---|
@@ -295,22 +311,43 @@ The deployment/demo thresholds currently used are:
 
 The threshold calculations themselves use normal validation data.
 
-Test-score distributions were also inspected during development for diagnostic purposes. Therefore, classification results should be described as **development evaluation**, rather than as performance on a completely untouched final test benchmark.
+Test score distributions were also inspected during development for diagnostic purposes.
+
+Therefore, classification results should be described as **development evaluation**, rather than performance on a completely untouched final test benchmark.
 
 ---
 
-# 🧪 Coreset Ablation
+# 🧪 Baseline Comparison
 
-Bottle experiments were also performed with different memory-bank sizes.
+Before PatchCore, a convolutional autoencoder was implemented as a reconstruction-based baseline.
 
-| Coreset Size | Image AUROC | Pixel AUROC | Memory |
-|---:|---:|---:|---:|
-| 100 | 1.0000 | 0.9690 | ~0.049 MB |
-| 250 | 1.0000 | 0.9793 | ~0.122 MB |
-| 500 | 1.0000 | 0.9824 | ~0.244 MB |
-| 1000 | 1.0000 | 0.9840 | ~0.488 MB |
+Bottle results:
 
-A coreset size of **500** was selected as the default because it offers a strong trade-off between localization performance, memory usage, and inference cost.
+| Model | Image AUROC | Pixel AUROC |
+|---|---:|---:|
+| Convolutional Autoencoder | 0.8611 | 0.7184 |
+| **PatchCore-style** | **1.0000** | **0.9819** |
+
+The autoencoder detected some anomalies but produced noisier localization around normal bottle boundaries.
+
+PatchCore-style deep feature matching produced substantially stronger image-level separation and localization.
+
+---
+
+# 🔬 Coreset Ablation Study
+
+Different memory-bank sizes were evaluated on Bottle.
+
+| Coreset Size | Image AUROC | Pixel AUROC | Inference ms/image | Memory |
+|---:|---:|---:|---:|---:|
+| 100 | 1.0000 | 0.9690 | 10.62 | 0.049 MB |
+| 250 | 1.0000 | 0.9793 | 10.38 | 0.122 MB |
+| **500** | **1.0000** | **0.9824** | **10.59** | **0.244 MB** |
+| 1000 | 1.0000 | 0.9840 | 11.87 | 0.488 MB |
+
+A **500-patch memory bank** was selected as the default.
+
+Moving from 500 to 1000 patches approximately doubled memory usage while providing only a small improvement in pixel AUROC.
 
 ---
 
@@ -327,6 +364,15 @@ VisionInspect/
 ├── .streamlit/
 │   └── config.toml
 │
+├── docs/
+│   ├── index.html
+│   └── assets/
+│       ├── bottle_anomaly.png
+│       ├── hazelnut_normal.png
+│       ├── tile_anomaly.png
+│       ├── video_result.png
+│       └── benchmark.png
+│
 ├── src/
 │   └── visioninspect/
 │       ├── __init__.py
@@ -337,6 +383,7 @@ VisionInspect/
 │       └── video.py
 │
 ├── models/
+│   ├── autoencoder_bottle_best.pt
 │   ├── patchcore_bottle_memory.pt
 │   ├── patchcore_hazelnut_memory.pt
 │   └── patchcore_tile_memory.pt
@@ -359,29 +406,29 @@ VisionInspect/
 └── runtime/
 ```
 
-The `data/`, `.venv/`, and runtime-generated files are excluded from GitHub through `.gitignore`.
+The large dataset, virtual environment and runtime-generated files are excluded through `.gitignore`.
 
 ---
 
-# 🚀 Installation
+# 🚀 Local Installation
 
 ## 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/MuhammadTalha-pk/VisionInspect.git
 cd VisionInspect
 ```
 
 ## 2. Create a virtual environment
 
-Windows:
+### Windows
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
 ```
 
-Linux/macOS:
+### Linux / macOS
 
 ```bash
 python -m venv .venv
@@ -394,11 +441,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
----
-
-# ▶️ Running VisionInspect
-
-Start the Streamlit application:
+## 4. Run the application
 
 ```bash
 streamlit run app.py
@@ -408,13 +451,6 @@ Then open:
 
 ```text
 http://localhost:8501
-```
-
-The application supports both:
-
-```text
-Image Inspection
-Video Inspection
 ```
 
 ---
@@ -438,9 +474,9 @@ VisionInspect uses:
 
 # 💾 Dataset
 
-The experiments use the **MVTec Anomaly Detection (MVTec AD)** dataset.
+The experiments use the **MVTec Anomaly Detection dataset**.
 
-Expected directory structure:
+Expected structure:
 
 ```text
 data/
@@ -466,26 +502,26 @@ The dataset itself is not included in this repository.
 
 # ⚠️ Limitations
 
-VisionInspect is trained on controlled MVTec category distributions.
+VisionInspect learns the visual distribution of each supported category.
 
-Its anomaly detector does not understand the semantic concept of an object in the same way as a supervised classifier.
+It does not understand semantic object identity in the same way as a supervised classifier.
 
-For example, a real-world photograph of a bottle may still be considered anomalous if it differs substantially from the MVTec Bottle training distribution.
+A real-world photograph of a bottle may therefore be considered anomalous if it differs substantially from the MVTec Bottle training distribution.
 
-Changes such as:
+Potential domain-shift factors include:
 
 - Camera viewpoint
 - Lighting
 - Background
-- Product design
-- Scale
+- Product appearance
 - Rotation
+- Scale
 - Texture
 - Occlusion
 
-can produce **domain-shift false positives**.
+External Bottle experiments demonstrated this sensitivity.
 
-This behavior is expected from nearest-neighbour anomaly detection when the deployment distribution differs substantially from the normal reference distribution.
+A production deployment would require normal reference images collected under the actual deployment camera and operating conditions.
 
 ---
 
@@ -505,44 +541,52 @@ VisionInspect demonstrates practical experience with:
 - Nearest-Neighbour Search
 - Coreset Selection
 - Threshold Calibration
-- Pixel-Level Localization
+- Pixel-Level Defect Localization
 - Image Processing
 - Video Processing
 - Model Evaluation
 - Ablation Studies
 - Streamlit Deployment
+- GitHub Pages
 
 ---
 
 # 🔮 Future Work
 
-Potential improvements include:
+Potential extensions include:
 
 - Additional MVTec categories
-- Approximate nearest-neighbour search using FAISS
+- FAISS approximate nearest-neighbour search
 - GPU inference
 - Batch inspection
-- Real-time camera inspection
-- Improved video temporal aggregation
+- Live camera inspection
+- Improved temporal video aggregation
 - Domain adaptation
-- Few-shot adaptation to new production environments
-- Alternative pretrained backbones
-- PaDiM / EfficientAD / Reverse Distillation comparisons
+- Few-shot adaptation
+- Additional anomaly-detection architectures
+- PaDiM comparison
+- EfficientAD comparison
+- Reverse Distillation comparison
 - REST API deployment
 - Docker support
 
 ---
 
-# 📌 Research Note
+# 📌 Project Links
 
-The project is designed as an educational and portfolio implementation of industrial visual anomaly detection.
+**Live AI Demo**  
+https://visioninspect-aidetection.streamlit.app
 
-It is not intended to represent a production-certified quality-control system without further validation on deployment-specific industrial data.
+**Project Showcase**  
+https://muhammadtalha-pk.github.io/VisionInspect/
+
+**GitHub Repository**  
+https://github.com/MuhammadTalha-pk/VisionInspect
 
 ---
 
 ## VisionInspect
 
-**Deep visual anomaly detection for industrial inspection.**
+**Unsupervised Industrial Defect Detection & Localization**
 
 `PatchCore-style • WideResNet50-2 • Image + Video • Pixel-Level Localization`

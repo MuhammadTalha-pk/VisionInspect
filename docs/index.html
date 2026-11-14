@@ -11,7 +11,7 @@
 
     <meta
         name="description"
-        content="VisionInspect — Unsupervised Industrial Defect Detection & Localization using PatchCore-style anomaly detection, WideResNet50-2, heatmaps, image inspection and video analysis."
+        content="VisionInspect — Unsupervised Industrial Defect Detection & Localization using PatchCore-style anomaly detection, WideResNet50-2 and deep visual feature matching."
     >
 
     <title>
@@ -35,7 +35,6 @@
 
             --blue: #2563eb;
             --cyan: #0891b2;
-
             --green: #0f766e;
 
             --soft-blue: #edf7fb;
@@ -106,7 +105,7 @@
 
 
         /* ==================================================
-           NAVIGATION
+           NAV
         ================================================== */
 
         .nav {
@@ -346,10 +345,13 @@
             color:
                 #24454b;
 
-            font-size:
-                13px;
+            font-size: 13px;
         }
 
+
+        /* ==================================================
+           BUTTONS
+        ================================================== */
 
         .actions {
             position: relative;
@@ -386,7 +388,8 @@
             font-weight: 750;
 
             transition:
-                transform 0.15s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
         }
 
 
@@ -484,7 +487,7 @@
 
 
         /* ==================================================
-           SUMMARY CARDS
+           OVERVIEW
         ================================================== */
 
         .overview-grid {
@@ -539,7 +542,7 @@
 
 
         /* ==================================================
-           RESULTS
+           METRICS
         ================================================== */
 
         .metrics {
@@ -677,8 +680,7 @@
             color:
                 #2b4049;
 
-            font-size:
-                14px;
+            font-size: 14px;
         }
 
 
@@ -906,8 +908,48 @@
             color:
                 #455a63;
 
-            font-size:
-                13px;
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           CTA
+        ================================================== */
+
+        .cta {
+            padding:
+                34px;
+
+            border-radius:
+                21px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #eef9f6,
+                    #edf8fc
+                );
+
+            border:
+                1px solid
+                #d4e7e7;
+        }
+
+
+        .cta h2 {
+            margin:
+                0 0 8px;
+
+            font-size: 30px;
+        }
+
+
+        .cta p {
+            margin:
+                0;
+
+            color:
+                var(--muted);
         }
 
 
@@ -1025,7 +1067,7 @@
 
 
     <!-- ==================================================
-         NAV
+         NAVIGATION
     =================================================== -->
 
     <nav class="nav">
@@ -1060,6 +1102,13 @@
             </a>
 
             <a
+                href="https://visioninspect-aidetection.streamlit.app"
+                target="_blank"
+            >
+                Live App ↗
+            </a>
+
+            <a
                 href="https://github.com/MuhammadTalha-pk/VisionInspect"
                 target="_blank"
             >
@@ -1079,7 +1128,7 @@
     <header class="hero">
 
         <div class="project-label">
-            Computer Vision Portfolio Project
+            Computer Vision · Industrial Anomaly Detection
         </div>
 
 
@@ -1125,7 +1174,7 @@
             </span>
 
             <span class="chip">
-                Image + Video Inspection
+                Image + Video
             </span>
 
         </div>
@@ -1135,6 +1184,15 @@
 
             <a
                 class="button button-primary"
+                href="https://visioninspect-aidetection.streamlit.app"
+                target="_blank"
+            >
+                🚀 Launch Live AI Demo
+            </a>
+
+
+            <a
+                class="button button-secondary"
                 href="https://github.com/MuhammadTalha-pk/VisionInspect"
                 target="_blank"
             >
@@ -1146,7 +1204,7 @@
                 class="button button-secondary"
                 href="#demo"
             >
-                View Project Demo
+                View Screenshots
             </a>
 
         </div>
@@ -1156,7 +1214,7 @@
 
 
     <!-- ==================================================
-         PROJECT OVERVIEW
+         OVERVIEW
     =================================================== -->
 
     <section id="overview">
@@ -1191,9 +1249,9 @@
             Large feature-space distances indicate unusual
             visual patterns.
 
-            These local anomaly scores are used both for
-            image-level classification and spatial defect
-            localization.
+            These local anomaly scores support both
+            image-level classification and spatial
+            defect localization.
 
         </div>
 
@@ -1214,8 +1272,8 @@
                 </strong>
 
                 <span>
-                    Normal/anomalous classification with
-                    anomaly scoring.
+                    Normal/anomalous classification using
+                    category-specific calibrated thresholds.
                 </span>
 
             </div>
@@ -1250,8 +1308,8 @@
                 </strong>
 
                 <span>
-                    Sampled-frame anomaly analysis with a
-                    temporal score profile.
+                    Sampled-frame anomaly analysis with
+                    temporal score visualization.
                 </span>
 
             </div>
@@ -1268,8 +1326,8 @@
                 </strong>
 
                 <span>
-                    Baseline comparison, calibration and
-                    coreset ablation.
+                    Baseline comparison, threshold
+                    calibration and coreset ablation.
                 </span>
 
             </div>
@@ -1330,7 +1388,7 @@
                 </div>
 
                 <div class="metric-note">
-                    Pixel-level localization performance
+                    Pixel-level localization
                 </div>
 
             </div>
@@ -1347,7 +1405,7 @@
                 </div>
 
                 <div class="metric-note">
-                    Development evaluation
+                    Three-category development evaluation
                 </div>
 
             </div>
@@ -1411,9 +1469,9 @@
             </strong>
 
             threshold diagnostics were inspected during
-            development. Results are therefore described
-            as development evaluation rather than a fully
-            untouched final benchmark.
+            development. Results are therefore presented
+            as development evaluation rather than a
+            completely untouched final benchmark.
 
         </div>
 
@@ -1434,8 +1492,8 @@
             </h2>
 
             <p>
-                Screenshots from the VisionInspect
-                Streamlit application.
+                Example outputs from the deployed
+                VisionInspect application.
             </p>
 
         </div>
@@ -1458,10 +1516,9 @@
                     </strong>
 
                     <span>
-                        The interface shows the anomaly
-                        score, calibrated threshold,
-                        heatmap and defect localization
-                        overlay.
+                        Image-level anomaly score,
+                        calibrated threshold, heatmap and
+                        localization overlay.
                     </span>
 
                 </div>
@@ -1473,7 +1530,7 @@
 
                 <img
                     src="assets/hazelnut_normal.png"
-                    alt="Hazelnut normal sample"
+                    alt="Hazelnut normal inspection"
                 >
 
                 <div class="shot-caption">
@@ -1483,8 +1540,8 @@
                     </strong>
 
                     <span>
-                        Category-specific normal-memory
-                        inference using the Hazelnut model.
+                        Category-specific inference using
+                        the Hazelnut normal memory bank.
                     </span>
 
                 </div>
@@ -1496,7 +1553,7 @@
 
                 <img
                     src="assets/tile_anomaly.png"
-                    alt="Tile anomaly detection"
+                    alt="Tile anomaly inspection"
                 >
 
                 <div class="shot-caption">
@@ -1506,8 +1563,8 @@
                     </strong>
 
                     <span>
-                        Texture-sensitive anomaly detection
-                        using local visual embeddings.
+                        Texture-focused anomaly detection
+                        and spatial localization.
                     </span>
 
                 </div>
@@ -1519,7 +1576,7 @@
 
                 <img
                     src="assets/video_result.png"
-                    alt="Video anomaly inspection"
+                    alt="VisionInspect video analysis"
                 >
 
                 <div class="shot-caption">
@@ -1529,9 +1586,9 @@
                     </strong>
 
                     <span>
-                        Sampled frames are evaluated to
-                        produce a temporal anomaly profile
-                        and peak anomalous frame.
+                        Sampled frames generate temporal
+                        anomaly scores and a peak anomalous
+                        frame.
                     </span>
 
                 </div>
@@ -1549,18 +1606,30 @@
                 <div class="shot-caption">
 
                     <strong>
-                        Benchmark dashboard
+                        Experimental dashboard
                     </strong>
 
                     <span>
-                        Category metrics, model comparison
-                        and experimental analysis are
-                        available inside the app.
+                        Category comparison, model
+                        comparison and ablation analysis.
                     </span>
 
                 </div>
 
             </article>
+
+        </div>
+
+
+        <div class="actions">
+
+            <a
+                class="button button-primary"
+                href="https://visioninspect-aidetection.streamlit.app"
+                target="_blank"
+            >
+                🚀 Try VisionInspect Live
+            </a>
 
         </div>
 
@@ -1601,8 +1670,8 @@
                 </h3>
 
                 <p>
-                    Images are resized to 256 × 256 and
-                    normalized using ImageNet statistics.
+                    Resize to 256 × 256 and apply ImageNet
+                    normalization.
                 </p>
 
             </div>
@@ -1637,8 +1706,8 @@
                 </h3>
 
                 <p>
-                    Feature maps are spatially aligned and
-                    concatenated into 1536-D local patches.
+                    Feature maps are aligned and fused into
+                    1536-D local patch representations.
                 </p>
 
             </div>
@@ -1655,8 +1724,8 @@
                 </h3>
 
                 <p>
-                    Local patch vectors are projected into
-                    normalized 128-D embeddings.
+                    Patch vectors are projected into a
+                    normalized 128-D feature space.
                 </p>
 
             </div>
@@ -1673,8 +1742,8 @@
                 </h3>
 
                 <p>
-                    Representative normal embeddings form a
-                    500-patch category-specific memory bank.
+                    500 representative normal patch
+                    embeddings are retained per category.
                 </p>
 
             </div>
@@ -1691,8 +1760,8 @@
                 </h3>
 
                 <p>
-                    Every test patch is compared to its
-                    nearest normal-memory neighbour.
+                    Test patches are compared with nearest
+                    normal-memory embeddings.
                 </p>
 
             </div>
@@ -1709,8 +1778,8 @@
                 </h3>
 
                 <p>
-                    The most anomalous local patches form the
-                    final image anomaly score.
+                    The most anomalous local regions form
+                    the final image-level score.
                 </p>
 
             </div>
@@ -1727,8 +1796,8 @@
                 </h3>
 
                 <p>
-                    Patch distances are reconstructed into
-                    an anomaly heatmap and visual overlay.
+                    Spatial patch distances produce the
+                    final heatmap and localization overlay.
                 </p>
 
             </div>
@@ -1740,7 +1809,7 @@
 
 
     <!-- ==================================================
-         EXPERIMENTS
+         BASELINE
     =================================================== -->
 
     <section>
@@ -1748,32 +1817,18 @@
         <div class="section-heading">
 
             <h2>
-                Experimental Design
+                Baseline vs PatchCore
             </h2>
 
-        </div>
-
-
-        <div class="prose">
-
-            The project began with a convolutional
-            autoencoder reconstruction baseline.
-
-            That model achieved useful image-level
-            detection but produced weaker and noisier
-            pixel-level localization.
-
-            A PatchCore-style feature-space approach was
-            then implemented using pretrained deep visual
-            representations and nearest-neighbour matching.
+            <p>
+                Comparing reconstruction-based anomaly
+                detection with deep feature matching.
+            </p>
 
         </div>
 
 
-        <div
-            class="table-wrap"
-            style="margin-top: 21px;"
-        >
+        <div class="table-wrap">
 
             <table>
 
@@ -1818,6 +1873,17 @@
 
         </div>
 
+
+        <div class="callout">
+
+            The autoencoder baseline detected some
+            anomalies but produced noisier localization.
+            PatchCore-style deep feature matching produced
+            substantially stronger separation and
+            localization.
+
+        </div>
+
     </section>
 
 
@@ -1835,8 +1901,9 @@
             </h2>
 
             <p>
-                Evaluating the relationship between
-                localization quality and memory-bank size.
+                Studying the trade-off between memory-bank
+                size, localization quality and inference
+                cost.
             </p>
 
         </div>
@@ -1908,10 +1975,11 @@
 
         <div class="callout">
 
-            A <strong>500-patch coreset</strong> was chosen
-            as the default because moving to 1000 patches
-            doubled memory usage for only a small improvement
-            in pixel AUROC.
+            A <strong>500-patch coreset</strong> was
+            selected as the default accuracy-efficiency
+            trade-off. Increasing the memory bank to 1000
+            approximately doubled memory usage for only a
+            small localization improvement.
 
         </div>
 
@@ -1937,19 +2005,20 @@
         <div class="prose">
 
             VisionInspect learns category-specific normal
-            appearance rather than semantic object identity.
+            visual distributions rather than semantic
+            object identity.
 
-            Large differences in camera viewpoint,
-            lighting, scale, background, product design or
-            occlusion can therefore cause domain-shift false
+            Large differences in viewpoint, lighting,
+            background, product design, scale or occlusion
+            can therefore produce domain-shift false
             positives.
 
             External Bottle experiments demonstrated this
             behavior.
 
-            A real industrial deployment would require
-            normal reference data collected under the
-            target production camera and operating
+            A real production deployment would require
+            representative normal reference data collected
+            under the target camera, lighting and operating
             conditions.
 
         </div>
@@ -1967,7 +2036,7 @@
         <div class="section-heading">
 
             <h2>
-                Technologies
+                Technology Stack
             </h2>
 
         </div>
@@ -1995,43 +2064,54 @@
 
 
     <!-- ==================================================
-         LINKS
+         FINAL CTA
     =================================================== -->
 
     <section>
 
-        <div class="section-heading">
+        <div class="cta">
 
             <h2>
-                Project Links
+                Explore VisionInspect
             </h2>
 
-        </div>
+            <p>
+                Run the deployed application, inspect the
+                source code, or explore the experimental
+                results in the repository.
+            </p>
 
 
-        <div class="actions">
+            <div class="actions">
 
-            <a
-                class="button button-primary"
-                href="https://github.com/MuhammadTalha-pk/VisionInspect"
-                target="_blank"
-            >
-                GitHub Repository ↗
-            </a>
+                <a
+                    class="button button-primary"
+                    href="https://visioninspect-aidetection.streamlit.app"
+                    target="_blank"
+                >
+                    🚀 Launch Live AI Demo
+                </a>
 
 
-            <a
-                class="button button-secondary"
-                href="#demo"
-            >
-                View Screenshots
-            </a>
+                <a
+                    class="button button-secondary"
+                    href="https://github.com/MuhammadTalha-pk/VisionInspect"
+                    target="_blank"
+                >
+                    GitHub Repository ↗
+                </a>
+
+            </div>
 
         </div>
 
     </section>
 
 
+
+    <!-- ==================================================
+         FOOTER
+    =================================================== -->
 
     <footer>
 
