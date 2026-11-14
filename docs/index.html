@@ -11,39 +11,39 @@
 
     <meta
         name="description"
-        content="VisionInspect - Unsupervised industrial anomaly detection and defect localization using PatchCore-style deep features."
+        content="VisionInspect — Unsupervised Industrial Defect Detection & Localization using PatchCore-style anomaly detection, WideResNet50-2, heatmaps, image inspection and video analysis."
     >
 
     <title>
-        VisionInspect — Industrial Visual Anomaly Detection
+        VisionInspect — Unsupervised Industrial Defect Detection & Localization
     </title>
 
     <style>
 
-        /* ===================================================
-           GLOBAL
-        =================================================== */
-
         :root {
-            --bg: #f5f7f8;
+            --page: #f5f7f8;
             --card: #ffffff;
-            --text: #12212a;
-            --muted: #61717d;
 
-            --line: #dce5e9;
+            --text: #13232c;
+            --body: #334851;
+            --muted: #71818a;
 
-            --mint: #eefaf6;
-            --mint-strong: #dff4ed;
+            --line: #dde6e9;
+
+            --mint: #eef9f6;
+            --mint-border: #d4ebe5;
 
             --blue: #2563eb;
             --cyan: #0891b2;
 
-            --dark-blue: #153b66;
-
             --green: #0f766e;
 
+            --soft-blue: #edf7fb;
+            --soft-yellow: #fff8e5;
+
             --shadow:
-                0 18px 45px rgba(20, 45, 60, 0.07);
+                0 18px 50px
+                rgba(27, 57, 67, 0.07);
         }
 
 
@@ -60,15 +60,6 @@
         body {
             margin: 0;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #f3f7f8 0%,
-                    #f7f9fa 100%
-                );
-
-            color: var(--text);
-
             font-family:
                 Inter,
                 ui-sans-serif,
@@ -78,7 +69,22 @@
                 "Segoe UI",
                 sans-serif;
 
+            color: var(--text);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f3f7f8 0%,
+                    #f8fafb 100%
+                );
+
             line-height: 1.7;
+        }
+
+
+        img {
+            display: block;
+            max-width: 100%;
         }
 
 
@@ -87,34 +93,30 @@
         }
 
 
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-
-        /* ===================================================
-           PAGE
-        =================================================== */
-
         .page {
-            width: min(
-                1180px,
-                calc(100% - 42px)
-            );
+            width:
+                min(
+                    1180px,
+                    calc(100% - 42px)
+                );
 
-            margin: 42px auto 80px;
+            margin:
+                32px auto 80px;
         }
 
 
-        /* ===================================================
-           NAV
-        =================================================== */
+        /* ==================================================
+           NAVIGATION
+        ================================================== */
 
         .nav {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
 
             gap: 20px;
 
@@ -127,8 +129,8 @@
             align-items: center;
             gap: 10px;
 
-            font-weight: 800;
             font-size: 18px;
+            font-weight: 820;
         }
 
 
@@ -139,61 +141,59 @@
 
         .nav-links {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
 
-        .nav-link {
+        .nav-links a {
             text-decoration: none;
-
-            color: #465964;
-
-            font-size: 14px;
-            font-weight: 650;
 
             padding: 8px 13px;
 
-            border-radius: 20px;
+            border-radius: 999px;
 
-            transition: 0.2s ease;
+            color: #52656e;
+
+            font-size: 13px;
+            font-weight: 650;
         }
 
 
-        .nav-link:hover {
-            background: #e8f2f3;
-            color: #123b46;
+        .nav-links a:hover {
+            background: #e8f3f3;
+            color: #173d45;
         }
 
 
-        /* ===================================================
+        /* ==================================================
            HERO
-        =================================================== */
+        ================================================== */
 
         .hero {
             position: relative;
 
             overflow: hidden;
 
-            padding: 54px 52px;
+            padding: 54px;
 
-            border-radius: 26px;
-
-            border:
-                1px solid #dbe7e9;
+            border-radius: 27px;
 
             background:
                 radial-gradient(
                     circle at 0% 0%,
-                    rgba(191, 235, 221, 0.42),
-                    transparent 36%
+                    rgba(177, 230, 216, 0.38),
+                    transparent 37%
                 ),
                 radial-gradient(
                     circle at 100% 100%,
-                    rgba(198, 229, 241, 0.26),
+                    rgba(174, 222, 241, 0.25),
                     transparent 35%
                 ),
-                #ffffff;
+                white;
+
+            border:
+                1px solid #dbe7e9;
 
             box-shadow:
                 var(--shadow);
@@ -205,35 +205,40 @@
 
             position: absolute;
 
-            width: 310px;
-            height: 310px;
+            width: 350px;
+            height: 350px;
+
+            right: -190px;
+            top: -180px;
 
             border-radius: 50%;
 
-            right: -150px;
-            top: -160px;
-
             background:
-                rgba(154, 219, 210, 0.13);
+                rgba(125, 211, 207, 0.11);
         }
 
 
-        .eyebrow {
-            display: inline-flex;
+        .project-label {
+            display: inline-block;
 
-            align-items: center;
+            position: relative;
+            z-index: 1;
 
-            padding: 8px 15px;
+            padding:
+                8px 15px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
             background:
                 var(--mint);
 
             border:
-                1px solid #d2ebe3;
+                1px solid
+                var(--mint-border);
 
-            color: #264d4c;
+            color:
+                #28514f;
 
             font-size: 14px;
             font-weight: 650;
@@ -244,78 +249,112 @@
 
         .hero h1 {
             position: relative;
-
             z-index: 1;
 
             margin:
-                0 0 18px;
+                0 0 16px;
 
-            max-width: 1020px;
-
-            color: #13232c;
+            max-width:
+                1030px;
 
             font-size:
                 clamp(
-                    44px,
-                    6.2vw,
-                    77px
+                    43px,
+                    5.7vw,
+                    72px
                 );
 
             line-height: 1.08;
 
             letter-spacing:
-                -3px;
+                -2.7px;
 
             font-weight: 850;
+
+            color:
+                #13232c;
         }
 
 
-        .hero-subtitle {
-            max-width: 930px;
+        .hero h1 span {
+            display: block;
 
-            color: var(--muted);
+            margin-top: 8px;
+
+            font-size:
+                0.50em;
+
+            letter-spacing:
+                -1px;
+
+            color:
+                #31525c;
+
+            font-weight: 650;
+        }
+
+
+        .hero-description {
+            position: relative;
+            z-index: 1;
+
+            max-width: 980px;
+
+            margin-top: 22px;
+
+            color:
+                #5f7079;
 
             font-size:
                 clamp(
-                    18px,
+                    17px,
                     2vw,
-                    23px
+                    21px
                 );
 
-            margin-bottom: 26px;
+            line-height: 1.65;
         }
 
 
         .chips {
+            position: relative;
+            z-index: 1;
+
             display: flex;
             flex-wrap: wrap;
 
-            gap: 10px;
+            gap: 9px;
+
+            margin-top: 25px;
         }
 
 
         .chip {
-            padding: 9px 15px;
+            padding:
+                8px 14px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
             background:
                 var(--mint);
 
             border:
-                1px solid #d2ebe3;
+                1px solid
+                var(--mint-border);
 
-            color: #17383a;
+            color:
+                #24454b;
 
-            font-size: 14px;
+            font-size:
+                13px;
         }
 
 
-        /* ===================================================
-           BUTTONS
-        =================================================== */
+        .actions {
+            position: relative;
+            z-index: 1;
 
-        .hero-actions {
             display: flex;
             flex-wrap: wrap;
 
@@ -333,18 +372,21 @@
 
             gap: 7px;
 
+            padding:
+                11px 17px;
+
+            border-radius:
+                11px;
+
             text-decoration: none;
 
-            padding: 11px 17px;
+            font-size:
+                14px;
 
-            border-radius: 11px;
-
-            font-size: 14px;
             font-weight: 750;
 
             transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+                transform 0.15s ease;
         }
 
 
@@ -365,24 +407,26 @@
                 );
 
             box-shadow:
-                0 8px 20px
-                rgba(37, 99, 235, 0.20);
+                0 9px 24px
+                rgba(37, 99, 235, 0.19);
         }
 
 
         .button-secondary {
-            color: #24414b;
+            color:
+                #27434d;
 
-            background: white;
+            background:
+                white;
 
             border:
                 1px solid #d5e1e5;
         }
 
 
-        /* ===================================================
+        /* ==================================================
            SECTIONS
-        =================================================== */
+        ================================================== */
 
         section {
             margin-top: 72px;
@@ -390,9 +434,9 @@
 
 
         .section-heading {
-            margin-bottom: 22px;
-
             padding-bottom: 13px;
+
+            margin-bottom: 23px;
 
             border-bottom:
                 1px solid var(--line);
@@ -405,7 +449,7 @@
             font-size:
                 clamp(
                     28px,
-                    3.5vw,
+                    3.6vw,
                     40px
                 );
 
@@ -418,107 +462,87 @@
 
         .section-heading p {
             margin:
-                9px 0 0;
+                8px 0 0;
 
             color:
                 var(--muted);
 
-            font-size: 16px;
+            font-size: 15px;
         }
 
 
         .prose {
-            color: #253941;
+            max-width:
+                1080px;
 
-            font-size: 17px;
+            color:
+                var(--body);
 
-            max-width: 1080px;
+            font-size:
+                17px;
         }
 
 
-        /* ===================================================
-           METRICS
-        =================================================== */
+        /* ==================================================
+           SUMMARY CARDS
+        ================================================== */
 
-        .metrics {
+        .overview-grid {
             display: grid;
 
             grid-template-columns:
                 repeat(
-                    3,
+                    4,
                     1fr
                 );
 
-            gap: 16px;
+            gap: 14px;
         }
 
 
-        .metric {
-            padding: 24px;
+        .overview-card {
+            padding: 21px;
 
-            border-radius: 18px;
+            border-radius:
+                16px;
 
-            background:
-                linear-gradient(
-                    145deg,
-                    #ffffff,
-                    #f7fbfa
-                );
+            background: white;
 
             border:
-                1px solid #dce7e6;
-
-            box-shadow:
-                0 9px 25px
-                rgba(26, 70, 70, 0.045);
+                1px solid
+                var(--line);
         }
 
 
-        .metric-label {
-            color: var(--muted);
+        .overview-icon {
+            font-size: 26px;
 
-            font-size: 13px;
-
-            font-weight: 700;
-
-            letter-spacing:
-                0.5px;
-
-            text-transform:
-                uppercase;
+            margin-bottom: 10px;
         }
 
 
-        .metric-value {
-            margin-top: 7px;
+        .overview-card strong {
+            display: block;
 
-            color: #163f45;
+            font-size: 16px;
 
-            font-size: 38px;
-
-            line-height: 1;
-
-            font-weight: 830;
-
-            letter-spacing:
-                -1.5px;
+            margin-bottom: 4px;
         }
 
 
-        .metric-note {
-            margin-top: 9px;
-
-            color: #71818a;
+        .overview-card span {
+            color:
+                var(--muted);
 
             font-size: 13px;
         }
 
 
-        /* ===================================================
-           CARDS
-        =================================================== */
+        /* ==================================================
+           RESULTS
+        ================================================== */
 
-        .cards {
+        .metrics {
             display: grid;
 
             grid-template-columns:
@@ -531,138 +555,83 @@
         }
 
 
-        .card {
+        .metric {
             padding: 24px;
 
-            border-radius: 17px;
-
-            background: white;
-
-            border:
-                1px solid var(--line);
-        }
-
-
-        .card-number {
-            width: 34px;
-            height: 34px;
-
-            display: grid;
-            place-items: center;
-
-            border-radius: 10px;
-
-            margin-bottom: 15px;
+            border-radius:
+                18px;
 
             background:
-                var(--mint-strong);
-
-            color:
-                var(--green);
-
-            font-weight: 800;
-        }
-
-
-        .card h3 {
-            margin:
-                0 0 8px;
-
-            font-size: 18px;
-        }
-
-
-        .card p {
-            margin: 0;
-
-            color:
-                var(--muted);
-
-            font-size: 14px;
-        }
-
-
-        /* ===================================================
-           SCREENSHOTS
-        =================================================== */
-
-        .feature-image {
-            overflow: hidden;
-
-            background: white;
-
-            border-radius: 18px;
-
-            border:
-                1px solid var(--line);
-
-            box-shadow:
-                0 13px 35px
-                rgba(30, 65, 75, 0.07);
-        }
-
-
-        .feature-image img {
-            width: 100%;
-        }
-
-
-        .feature-caption {
-            padding:
-                16px 18px 18px;
-        }
-
-
-        .feature-caption strong {
-            display: block;
-
-            margin-bottom: 3px;
-        }
-
-
-        .feature-caption span {
-            color:
-                var(--muted);
-
-            font-size: 14px;
-        }
-
-
-        .gallery {
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    2,
-                    1fr
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f8fbfa
                 );
 
-            gap: 19px;
-
-            margin-top: 18px;
+            border:
+                1px solid
+                #dce7e6;
         }
 
 
-        .gallery .feature-image:first-child {
-            grid-column:
-                1 / -1;
+        .metric-label {
+            color:
+                var(--muted);
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.55px;
         }
 
 
-        /* ===================================================
-           RESULTS TABLE
-        =================================================== */
+        .metric-value {
+            margin-top: 8px;
+
+            font-size: 37px;
+
+            line-height: 1;
+
+            letter-spacing:
+                -1.5px;
+
+            color:
+                #15424a;
+
+            font-weight: 840;
+        }
+
+
+        .metric-note {
+            margin-top: 9px;
+
+            color:
+                #71818a;
+
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           TABLE
+        ================================================== */
 
         .table-wrap {
             overflow-x: auto;
 
-            border-radius: 15px;
+            background: white;
 
             border:
-                1px solid var(--line);
+                1px solid
+                var(--line);
 
-            background:
-                white;
+            border-radius:
+                15px;
         }
 
 
@@ -676,23 +645,25 @@
 
         th,
         td {
-            text-align: left;
-
             padding:
                 14px 16px;
 
+            text-align: left;
+
             border-bottom:
-                1px solid #e8eef0;
+                1px solid
+                #e9eef0;
         }
 
 
         th {
-            color: #425861;
-
             background:
-                #f6faf9;
+                #f5faf9;
 
-            font-size: 13px;
+            color:
+                #465b64;
+
+            font-size: 12px;
 
             text-transform:
                 uppercase;
@@ -704,9 +675,10 @@
 
         td {
             color:
-                #263a42;
+                #2b4049;
 
-            font-size: 14px;
+            font-size:
+                14px;
         }
 
 
@@ -716,154 +688,320 @@
         }
 
 
-        .best {
+        .highlight {
             color:
-                #087b69;
+                var(--green);
 
             font-weight:
-                800;
+                820;
         }
 
 
-        /* ===================================================
-           CALLOUT
-        =================================================== */
+        /* ==================================================
+           PIPELINE
+        ================================================== */
 
-        .callout {
-            margin-top: 20px;
+        .pipeline {
+            display: grid;
 
-            padding: 20px 22px;
+            grid-template-columns:
+                repeat(
+                    4,
+                    1fr
+                );
 
-            border-radius: 14px;
-
-            background:
-                #fff8e7;
-
-            border:
-                1px solid #f3e0a9;
-
-            color:
-                #5a4b22;
+            gap: 14px;
         }
 
 
-        .callout.blue {
-            background:
-                #edf8fc;
+        .pipeline-card {
+            padding: 22px;
 
-            border-color:
-                #cde9f2;
-
-            color:
-                #28515e;
-        }
-
-
-        /* ===================================================
-           TECH STACK
-        =================================================== */
-
-        .stack {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 9px;
-        }
-
-
-        .stack span {
-            padding: 8px 13px;
-
-            border-radius: 999px;
-
-            border:
-                1px solid #d6e3e6;
+            border-radius:
+                16px;
 
             background:
                 white;
 
+            border:
+                1px solid
+                var(--line);
+        }
+
+
+        .pipeline-number {
+            width: 33px;
+            height: 33px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius:
+                9px;
+
+            background:
+                var(--mint);
+
             color:
-                #40545e;
+                var(--green);
+
+            font-weight:
+                850;
+
+            margin-bottom: 14px;
+        }
+
+
+        .pipeline-card h3 {
+            margin:
+                0 0 7px;
+
+            font-size: 16px;
+        }
+
+
+        .pipeline-card p {
+            margin: 0;
+
+            color:
+                var(--muted);
 
             font-size: 13px;
         }
 
 
-        /* ===================================================
+        /* ==================================================
+           SCREENSHOTS
+        ================================================== */
+
+        .gallery {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    1fr
+                );
+
+            gap: 18px;
+        }
+
+
+        .shot {
+            overflow: hidden;
+
+            border-radius:
+                17px;
+
+            background:
+                white;
+
+            border:
+                1px solid
+                var(--line);
+
+            box-shadow:
+                0 12px 34px
+                rgba(30, 65, 75, 0.055);
+        }
+
+
+        .shot.large {
+            grid-column:
+                1 / -1;
+        }
+
+
+        .shot img {
+            width: 100%;
+        }
+
+
+        .shot-caption {
+            padding:
+                15px 17px 18px;
+        }
+
+
+        .shot-caption strong {
+            display: block;
+
+            margin-bottom: 3px;
+        }
+
+
+        .shot-caption span {
+            color:
+                var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        /* ==================================================
+           CALLOUTS
+        ================================================== */
+
+        .callout {
+            margin-top: 19px;
+
+            padding:
+                19px 21px;
+
+            border-radius:
+                14px;
+
+            background:
+                var(--soft-blue);
+
+            border:
+                1px solid
+                #cae7f0;
+
+            color:
+                #31545f;
+
+            font-size: 14px;
+        }
+
+
+        .callout.warning {
+            background:
+                var(--soft-yellow);
+
+            border-color:
+                #f0dda4;
+
+            color:
+                #594b22;
+        }
+
+
+        /* ==================================================
+           STACK
+        ================================================== */
+
+        .stack {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .stack span {
+            padding:
+                8px 13px;
+
+            border-radius:
+                999px;
+
+            background:
+                white;
+
+            border:
+                1px solid
+                #d7e3e6;
+
+            color:
+                #455a63;
+
+            font-size:
+                13px;
+        }
+
+
+        /* ==================================================
            FOOTER
-        =================================================== */
+        ================================================== */
 
         footer {
             margin-top: 75px;
 
-            padding-top: 23px;
-
-            border-top:
-                1px solid var(--line);
+            padding-top: 22px;
 
             display: flex;
             justify-content: space-between;
 
             gap: 15px;
 
+            border-top:
+                1px solid
+                var(--line);
+
             color:
-                #71818a;
+                #75848c;
 
             font-size: 13px;
         }
 
 
-        /* ===================================================
+        /* ==================================================
            RESPONSIVE
-        =================================================== */
+        ================================================== */
 
         @media (
-            max-width: 850px
+            max-width: 900px
+        ) {
+
+            .overview-grid,
+            .pipeline {
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
+            }
+
+        }
+
+
+        @media (
+            max-width: 720px
         ) {
 
             .page {
                 width:
-                    min(
-                        94%,
-                        1180px
+                    calc(
+                        100% - 24px
                     );
 
                 margin-top:
-                    22px;
+                    18px;
             }
 
 
             .nav {
-                align-items:
-                    flex-start;
-
                 flex-direction:
                     column;
+
+                align-items:
+                    flex-start;
             }
 
 
             .hero {
                 padding:
-                    35px 27px;
+                    34px 25px;
             }
 
 
             .hero h1 {
                 letter-spacing:
-                    -1.7px;
+                    -1.5px;
             }
 
 
+            .overview-grid,
             .metrics,
-            .cards,
+            .pipeline,
             .gallery {
                 grid-template-columns:
                     1fr;
             }
 
 
-            .gallery
-            .feature-image:first-child {
+            .shot.large {
                 grid-column:
                     auto;
             }
@@ -877,6 +1015,7 @@
         }
 
     </style>
+
 </head>
 
 
@@ -885,9 +1024,9 @@
 <div class="page">
 
 
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
+    <!-- ==================================================
+         NAV
+    =================================================== -->
 
     <nav class="nav">
 
@@ -904,29 +1043,23 @@
 
         <div class="nav-links">
 
-            <a
-                class="nav-link"
-                href="#results"
-            >
+            <a href="#overview">
+                Overview
+            </a>
+
+            <a href="#results">
                 Results
             </a>
 
-            <a
-                class="nav-link"
-                href="#system"
-            >
-                System
-            </a>
-
-            <a
-                class="nav-link"
-                href="#demo"
-            >
+            <a href="#demo">
                 Demo
             </a>
 
+            <a href="#architecture">
+                Architecture
+            </a>
+
             <a
-                class="nav-link"
                 href="https://github.com/MuhammadTalha-pk/VisionInspect"
                 target="_blank"
             >
@@ -939,30 +1072,36 @@
 
 
 
-    <!-- =====================================================
+    <!-- ==================================================
          HERO
-    ====================================================== -->
+    =================================================== -->
 
     <header class="hero">
 
-        <div class="eyebrow">
-            Computer Vision · Industrial Anomaly Detection
+        <div class="project-label">
+            Computer Vision Portfolio Project
         </div>
 
 
         <h1>
-            Can Normal Visual Patterns Reveal
-            Industrial Defects?
+
+            VisionInspect
+
+            <span>
+                Unsupervised Industrial Defect Detection
+                & Localization
+            </span>
+
         </h1>
 
 
-        <div class="hero-subtitle">
+        <div class="hero-description">
 
-            An unsupervised visual inspection system
-            for detecting and localizing industrial
-            anomalies using deep CNN features,
-            PatchCore-style nearest-neighbour matching,
-            and normal-only learning.
+            A normal-only industrial visual inspection
+            system that detects anomalous products,
+            localizes suspicious regions, and extends the
+            same deep-feature anomaly pipeline to sampled
+            video inspection.
 
         </div>
 
@@ -970,7 +1109,7 @@
         <div class="chips">
 
             <span class="chip">
-                Author: Muhammad Talha
+                Muhammad Talha
             </span>
 
             <span class="chip">
@@ -986,27 +1125,28 @@
             </span>
 
             <span class="chip">
-                Image + Video
+                Image + Video Inspection
             </span>
 
         </div>
 
 
-        <div class="hero-actions">
+        <div class="actions">
 
             <a
                 class="button button-primary"
                 href="https://github.com/MuhammadTalha-pk/VisionInspect"
                 target="_blank"
             >
-                View GitHub Repository ↗
+                View Source Code ↗
             </a>
+
 
             <a
                 class="button button-secondary"
                 href="#demo"
             >
-                View Visual Demo
+                View Project Demo
             </a>
 
         </div>
@@ -1015,47 +1155,124 @@
 
 
 
-    <!-- =====================================================
-         ABSTRACT
-    ====================================================== -->
+    <!-- ==================================================
+         PROJECT OVERVIEW
+    =================================================== -->
 
-    <section>
+    <section id="overview">
 
         <div class="section-heading">
 
             <h2>
-                Abstract
+                Project Overview
             </h2>
+
+            <p>
+                Industrial anomaly detection without requiring
+                labeled examples of every possible defect.
+            </p>
 
         </div>
 
 
         <div class="prose">
 
-            VisionInspect investigates whether industrial
-            defects can be identified without requiring
-            labeled examples of every possible failure mode.
+            VisionInspect learns how a normal product looks
+            from normal-only training data.
 
-            Instead of learning a conventional binary
-            classifier, the system builds a representation
-            of <strong>normal visual appearance</strong>.
+            Instead of training a conventional defect
+            classifier, the system extracts local deep
+            visual representations from a pretrained
+            WideResNet50-2 and stores representative normal
+            embeddings in a PatchCore-style memory bank.
 
-            A pretrained WideResNet50-2 extracts multi-scale
-            convolutional features, local patches are
-            projected into a compact embedding space, and
-            representative normal embeddings form a
-            PatchCore-style memory bank.
+            During inspection, each test patch is compared
+            with its nearest normal reference patch.
+            Large feature-space distances indicate unusual
+            visual patterns.
 
-            At inference time, each test patch is compared
-            with its nearest normal neighbour. Larger
-            feature-space distances indicate visual
-            deviations and are reconstructed spatially to
-            produce defect-localization heatmaps.
+            These local anomaly scores are used both for
+            image-level classification and spatial defect
+            localization.
 
-            The project evaluates Bottle, Hazelnut and Tile
-            categories from MVTec AD and also extends the
-            image pipeline to sampled-frame video
-            inspection.
+        </div>
+
+
+        <div
+            class="overview-grid"
+            style="margin-top: 25px;"
+        >
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    🖼️
+                </div>
+
+                <strong>
+                    Image Inspection
+                </strong>
+
+                <span>
+                    Normal/anomalous classification with
+                    anomaly scoring.
+                </span>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    🎯
+                </div>
+
+                <strong>
+                    Defect Localization
+                </strong>
+
+                <span>
+                    Patch-level anomaly heatmaps and
+                    localization overlays.
+                </span>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    🎬
+                </div>
+
+                <strong>
+                    Video Inspection
+                </strong>
+
+                <span>
+                    Sampled-frame anomaly analysis with a
+                    temporal score profile.
+                </span>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <div class="overview-icon">
+                    📊
+                </div>
+
+                <strong>
+                    Experimental Evaluation
+                </strong>
+
+                <span>
+                    Baseline comparison, calibration and
+                    coreset ablation.
+                </span>
+
+            </div>
 
         </div>
 
@@ -1063,21 +1280,21 @@
 
 
 
-    <!-- =====================================================
-         KEY RESULTS
-    ====================================================== -->
+    <!-- ==================================================
+         RESULTS
+    =================================================== -->
 
     <section id="results">
 
         <div class="section-heading">
 
             <h2>
-                Key Results
+                Development Results
             </h2>
 
             <p>
-                Development evaluation across the three
-                implemented MVTec categories.
+                Evaluation across Bottle, Hazelnut and Tile
+                categories from MVTec AD.
             </p>
 
         </div>
@@ -1096,7 +1313,7 @@
                 </div>
 
                 <div class="metric-note">
-                    Bottle · Hazelnut · Tile
+                    Across three evaluated categories
                 </div>
 
             </div>
@@ -1113,7 +1330,7 @@
                 </div>
 
                 <div class="metric-note">
-                    Defect-localization performance
+                    Pixel-level localization performance
                 </div>
 
             </div>
@@ -1130,7 +1347,7 @@
                 </div>
 
                 <div class="metric-note">
-                    Three-category development evaluation
+                    Development evaluation
                 </div>
 
             </div>
@@ -1151,7 +1368,7 @@
                     <th>Category</th>
                     <th>Image AUROC</th>
                     <th>Pixel AUROC</th>
-                    <th>Deployment Threshold</th>
+                    <th>Threshold</th>
                 </tr>
 
                 </thead>
@@ -1161,21 +1378,21 @@
 
                 <tr>
                     <td>🍾 Bottle</td>
-                    <td class="best">1.0000</td>
+                    <td class="highlight">1.0000</td>
                     <td>0.9819</td>
                     <td>0.629979</td>
                 </tr>
 
                 <tr>
                     <td>🌰 Hazelnut</td>
-                    <td class="best">1.0000</td>
-                    <td class="best">0.9841</td>
+                    <td class="highlight">1.0000</td>
+                    <td class="highlight">0.9841</td>
                     <td>0.774364</td>
                 </tr>
 
                 <tr>
                     <td>🧱 Tile</td>
-                    <td class="best">1.0000</td>
+                    <td class="highlight">1.0000</td>
                     <td>0.9428</td>
                     <td>0.669720</td>
                 </tr>
@@ -1187,155 +1404,16 @@
         </div>
 
 
-        <div class="callout">
+        <div class="callout warning">
 
-            <strong>Evaluation note.</strong>
+            <strong>
+                Evaluation note:
+            </strong>
 
-            Threshold diagnostics were inspected during
-            development, so these results are presented as
-            development evaluation rather than performance
-            on a completely untouched final benchmark.
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         SYSTEM
-    ====================================================== -->
-
-    <section id="system">
-
-        <div class="section-heading">
-
-            <h2>
-                How VisionInspect Works
-            </h2>
-
-            <p>
-                A normal-only deep visual anomaly detection
-                pipeline.
-            </p>
-
-        </div>
-
-
-        <div class="cards">
-
-            <div class="card">
-
-                <div class="card-number">
-                    1
-                </div>
-
-                <h3>
-                    Normal-only learning
-                </h3>
-
-                <p>
-                    Only normal industrial samples are
-                    required to construct the visual
-                    reference distribution.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    2
-                </div>
-
-                <h3>
-                    Deep feature extraction
-                </h3>
-
-                <p>
-                    ImageNet-pretrained WideResNet50-2
-                    produces intermediate layer2 and layer3
-                    feature maps.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    3
-                </div>
-
-                <h3>
-                    Multi-scale fusion
-                </h3>
-
-                <p>
-                    Spatially aligned feature maps are
-                    concatenated into 1536-dimensional
-                    local patch representations.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    4
-                </div>
-
-                <h3>
-                    Feature projection
-                </h3>
-
-                <p>
-                    Local representations are projected
-                    into a normalized 128-dimensional
-                    embedding space.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    5
-                </div>
-
-                <h3>
-                    Normal memory bank
-                </h3>
-
-                <p>
-                    A 500-patch coreset retains
-                    representative embeddings from the
-                    normal training distribution.
-                </p>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    6
-                </div>
-
-                <h3>
-                    Nearest-neighbour scoring
-                </h3>
-
-                <p>
-                    Each test patch is scored using its
-                    nearest normal embedding. Larger
-                    distances indicate stronger anomalies.
-                </p>
-
-            </div>
+            threshold diagnostics were inspected during
+            development. Results are therefore described
+            as development evaluation rather than a fully
+            untouched final benchmark.
 
         </div>
 
@@ -1343,21 +1421,21 @@
 
 
 
-    <!-- =====================================================
-         VISUAL DEMO
-    ====================================================== -->
+    <!-- ==================================================
+         DEMO
+    =================================================== -->
 
     <section id="demo">
 
         <div class="section-heading">
 
             <h2>
-                Visual Inspection Demo
+                Inspection Demo
             </h2>
 
             <p>
-                Example outputs from the Streamlit
-                inspection interface.
+                Screenshots from the VisionInspect
+                Streamlit application.
             </p>
 
         </div>
@@ -1366,26 +1444,24 @@
         <div class="gallery">
 
 
-            <!-- Bottle -->
-
-            <article class="feature-image">
+            <article class="shot large">
 
                 <img
                     src="assets/bottle_anomaly.png"
-                    alt="VisionInspect Bottle anomaly detection result"
+                    alt="Bottle anomaly detection and localization"
                 >
 
-                <div class="feature-caption">
+                <div class="shot-caption">
 
                     <strong>
-                        Bottle defect localization
+                        Bottle — anomalous sample
                     </strong>
 
                     <span>
-                        An anomalous Bottle sample with
-                        image-level score, calibrated
-                        threshold, anomaly heatmap and
-                        localization overlay.
+                        The interface shows the anomaly
+                        score, calibrated threshold,
+                        heatmap and defect localization
+                        overlay.
                     </span>
 
                 </div>
@@ -1393,25 +1469,22 @@
             </article>
 
 
-            <!-- Hazelnut -->
-
-            <article class="feature-image">
+            <article class="shot">
 
                 <img
                     src="assets/hazelnut_normal.png"
-                    alt="VisionInspect Hazelnut normal result"
+                    alt="Hazelnut normal sample"
                 >
 
-                <div class="feature-caption">
+                <div class="shot-caption">
 
                     <strong>
-                        Hazelnut normal inspection
+                        Hazelnut — normal sample
                     </strong>
 
                     <span>
-                        Category-specific inference using
-                        the Hazelnut memory bank and
-                        calibrated decision threshold.
+                        Category-specific normal-memory
+                        inference using the Hazelnut model.
                     </span>
 
                 </div>
@@ -1419,25 +1492,22 @@
             </article>
 
 
-            <!-- Tile -->
-
-            <article class="feature-image">
+            <article class="shot">
 
                 <img
                     src="assets/tile_anomaly.png"
-                    alt="VisionInspect Tile anomaly result"
+                    alt="Tile anomaly detection"
                 >
 
-                <div class="feature-caption">
+                <div class="shot-caption">
 
                     <strong>
-                        Tile anomaly inspection
+                        Tile — anomaly inspection
                     </strong>
 
                     <span>
-                        Texture-sensitive anomaly scoring
-                        and pixel-level localization for
-                        the Tile category.
+                        Texture-sensitive anomaly detection
+                        using local visual embeddings.
                     </span>
 
                 </div>
@@ -1445,26 +1515,23 @@
             </article>
 
 
-            <!-- Video -->
-
-            <article class="feature-image">
+            <article class="shot">
 
                 <img
                     src="assets/video_result.png"
-                    alt="VisionInspect video inspection result"
+                    alt="Video anomaly inspection"
                 >
 
-                <div class="feature-caption">
+                <div class="shot-caption">
 
                     <strong>
                         Video inspection
                     </strong>
 
                     <span>
-                        Sampled video frames are evaluated
-                        through the same PatchCore pipeline
-                        to create a temporal anomaly
-                        profile.
+                        Sampled frames are evaluated to
+                        produce a temporal anomaly profile
+                        and peak anomalous frame.
                     </span>
 
                 </div>
@@ -1472,31 +1539,28 @@
             </article>
 
 
-            <!-- Benchmark -->
-
-            <article class="feature-image">
+            <article class="shot">
 
                 <img
                     src="assets/benchmark.png"
                     alt="VisionInspect benchmark dashboard"
                 >
 
-                <div class="feature-caption">
+                <div class="shot-caption">
 
                     <strong>
-                        Research benchmark dashboard
+                        Benchmark dashboard
                     </strong>
 
                     <span>
-                        Category comparison, baseline
-                        evaluation and experimental
-                        development metrics.
+                        Category metrics, model comparison
+                        and experimental analysis are
+                        available inside the app.
                     </span>
 
                 </div>
 
             </article>
-
 
         </div>
 
@@ -1504,27 +1568,212 @@
 
 
 
-    <!-- =====================================================
-         BASELINE
-    ====================================================== -->
+    <!-- ==================================================
+         ARCHITECTURE
+    =================================================== -->
+
+    <section id="architecture">
+
+        <div class="section-heading">
+
+            <h2>
+                System Architecture
+            </h2>
+
+            <p>
+                Deep feature extraction, normal-memory
+                construction and nearest-neighbour scoring.
+            </p>
+
+        </div>
+
+
+        <div class="pipeline">
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    1
+                </div>
+
+                <h3>
+                    Preprocessing
+                </h3>
+
+                <p>
+                    Images are resized to 256 × 256 and
+                    normalized using ImageNet statistics.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    2
+                </div>
+
+                <h3>
+                    CNN Features
+                </h3>
+
+                <p>
+                    WideResNet50-2 layer2 and layer3
+                    representations are extracted.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    3
+                </div>
+
+                <h3>
+                    Multi-scale Fusion
+                </h3>
+
+                <p>
+                    Feature maps are spatially aligned and
+                    concatenated into 1536-D local patches.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    4
+                </div>
+
+                <h3>
+                    Projection
+                </h3>
+
+                <p>
+                    Local patch vectors are projected into
+                    normalized 128-D embeddings.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    5
+                </div>
+
+                <h3>
+                    Coreset Memory
+                </h3>
+
+                <p>
+                    Representative normal embeddings form a
+                    500-patch category-specific memory bank.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    6
+                </div>
+
+                <h3>
+                    Patch Scoring
+                </h3>
+
+                <p>
+                    Every test patch is compared to its
+                    nearest normal-memory neighbour.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    7
+                </div>
+
+                <h3>
+                    Image Decision
+                </h3>
+
+                <p>
+                    The most anomalous local patches form the
+                    final image anomaly score.
+                </p>
+
+            </div>
+
+
+            <div class="pipeline-card">
+
+                <div class="pipeline-number">
+                    8
+                </div>
+
+                <h3>
+                    Localization
+                </h3>
+
+                <p>
+                    Patch distances are reconstructed into
+                    an anomaly heatmap and visual overlay.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         EXPERIMENTS
+    =================================================== -->
 
     <section>
 
         <div class="section-heading">
 
             <h2>
-                Why PatchCore?
+                Experimental Design
             </h2>
-
-            <p>
-                A convolutional autoencoder was implemented
-                first as a reconstruction-based baseline.
-            </p>
 
         </div>
 
 
-        <div class="table-wrap">
+        <div class="prose">
+
+            The project began with a convolutional
+            autoencoder reconstruction baseline.
+
+            That model achieved useful image-level
+            detection but produced weaker and noisier
+            pixel-level localization.
+
+            A PatchCore-style feature-space approach was
+            then implemented using pretrained deep visual
+            representations and nearest-neighbour matching.
+
+        </div>
+
+
+        <div
+            class="table-wrap"
+            style="margin-top: 21px;"
+        >
 
             <table>
 
@@ -1545,12 +1794,8 @@
                     <td>
                         Convolutional Autoencoder
                     </td>
-                    <td>
-                        0.8611
-                    </td>
-                    <td>
-                        0.7184
-                    </td>
+                    <td>0.8611</td>
+                    <td>0.7184</td>
                 </tr>
 
                 <tr>
@@ -1559,10 +1804,10 @@
                             PatchCore-style
                         </strong>
                     </td>
-                    <td class="best">
+                    <td class="highlight">
                         1.0000
                     </td>
-                    <td class="best">
+                    <td class="highlight">
                         0.9819
                     </td>
                 </tr>
@@ -1573,26 +1818,13 @@
 
         </div>
 
-
-        <div class="callout blue">
-
-            The baseline showed that reconstruction error
-            could identify some defects but produced noisy
-            localization around normal object boundaries.
-
-            Deep patch embeddings provided substantially
-            stronger image-level separation and spatial
-            localization.
-
-        </div>
-
     </section>
 
 
 
-    <!-- =====================================================
+    <!-- ==================================================
          ABLATION
-    ====================================================== -->
+    =================================================== -->
 
     <section>
 
@@ -1603,8 +1835,8 @@
             </h2>
 
             <p>
-                Memory-bank size was varied to study the
-                accuracy-efficiency trade-off.
+                Evaluating the relationship between
+                localization quality and memory-bank size.
             </p>
 
         </div>
@@ -1621,6 +1853,7 @@
                     <th>Image AUROC</th>
                     <th>Pixel AUROC</th>
                     <th>Memory</th>
+                    <th>Inference</th>
                 </tr>
 
                 </thead>
@@ -1633,6 +1866,7 @@
                     <td>1.0000</td>
                     <td>0.9690</td>
                     <td>0.049 MB</td>
+                    <td>10.62 ms</td>
                 </tr>
 
                 <tr>
@@ -1640,21 +1874,21 @@
                     <td>1.0000</td>
                     <td>0.9793</td>
                     <td>0.122 MB</td>
+                    <td>10.38 ms</td>
                 </tr>
 
                 <tr>
                     <td>
                         <strong>500</strong>
                     </td>
-                    <td class="best">
+                    <td class="highlight">
                         1.0000
                     </td>
-                    <td class="best">
+                    <td class="highlight">
                         0.9824
                     </td>
-                    <td>
-                        0.244 MB
-                    </td>
+                    <td>0.244 MB</td>
+                    <td>10.59 ms</td>
                 </tr>
 
                 <tr>
@@ -1662,6 +1896,7 @@
                     <td>1.0000</td>
                     <td>0.9840</td>
                     <td>0.488 MB</td>
+                    <td>11.87 ms</td>
                 </tr>
 
                 </tbody>
@@ -1671,14 +1906,12 @@
         </div>
 
 
-        <div class="callout blue">
+        <div class="callout">
 
-            A <strong>500-patch memory bank</strong>
-            was selected as the default configuration.
-
-            Increasing to 1000 patches provided only a
-            small localization improvement while doubling
-            the memory-bank size.
+            A <strong>500-patch coreset</strong> was chosen
+            as the default because moving to 1000 patches
+            doubled memory usage for only a small improvement
+            in pixel AUROC.
 
         </div>
 
@@ -1686,16 +1919,16 @@
 
 
 
-    <!-- =====================================================
+    <!-- ==================================================
          LIMITATIONS
-    ====================================================== -->
+    =================================================== -->
 
     <section>
 
         <div class="section-heading">
 
             <h2>
-                Limitations
+                Limitations & Deployment Considerations
             </h2>
 
         </div>
@@ -1703,21 +1936,20 @@
 
         <div class="prose">
 
-            VisionInspect learns the visual distribution of
-            each supported MVTec category rather than the
-            semantic meaning of an object.
+            VisionInspect learns category-specific normal
+            appearance rather than semantic object identity.
 
-            Real-world photographs with different camera
-            viewpoints, lighting, scale, backgrounds,
-            product designs or occlusions may therefore
-            produce false positives.
+            Large differences in camera viewpoint,
+            lighting, scale, background, product design or
+            occlusion can therefore cause domain-shift false
+            positives.
 
             External Bottle experiments demonstrated this
-            domain-shift sensitivity.
+            behavior.
 
-            Deployment in a real production environment
-            would require normal reference data collected
-            under the target camera and operating
+            A real industrial deployment would require
+            normal reference data collected under the
+            target production camera and operating
             conditions.
 
         </div>
@@ -1726,16 +1958,16 @@
 
 
 
-    <!-- =====================================================
-         STACK
-    ====================================================== -->
+    <!-- ==================================================
+         TECHNOLOGIES
+    =================================================== -->
 
     <section>
 
         <div class="section-heading">
 
             <h2>
-                Technology
+                Technologies
             </h2>
 
         </div>
@@ -1751,6 +1983,7 @@
             <span>OpenCV</span>
             <span>NumPy</span>
             <span>Scikit-learn</span>
+            <span>Pandas</span>
             <span>Matplotlib</span>
             <span>Streamlit</span>
             <span>MVTec AD</span>
@@ -1761,22 +1994,22 @@
 
 
 
-    <!-- =====================================================
+    <!-- ==================================================
          LINKS
-    ====================================================== -->
+    =================================================== -->
 
     <section>
 
         <div class="section-heading">
 
             <h2>
-                Explore the Project
+                Project Links
             </h2>
 
         </div>
 
 
-        <div class="hero-actions">
+        <div class="actions">
 
             <a
                 class="button button-primary"
@@ -1786,11 +2019,12 @@
                 GitHub Repository ↗
             </a>
 
+
             <a
                 class="button button-secondary"
                 href="#demo"
             >
-                Visual Results
+                View Screenshots
             </a>
 
         </div>
@@ -1799,10 +2033,6 @@
 
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
     <footer>
 
         <span>
@@ -1810,7 +2040,8 @@
         </span>
 
         <span>
-            Industrial Visual Anomaly Detection
+            Unsupervised Industrial Defect Detection
+            & Localization
         </span>
 
     </footer>
