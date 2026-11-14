@@ -1,0 +1,2 @@
+model,category,image_auroc,pixel_auroc,threshold,accuracy,precision,recall,f1,coreset_size
+PatchCore-style,tile,1.0,0.9428430470520912,0.6645063579082489,1.0,1.0,1.0,1.0,500

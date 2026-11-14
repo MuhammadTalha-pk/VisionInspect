@@ -1,0 +1,2 @@
+model,category,image_auroc,pixel_auroc,threshold,accuracy,precision,recall,f1,coreset_size
+PatchCore-style,bottle,1.0,0.9819243586892099,0.59880111515522,0.963855421686747,0.9545454545454546,1.0,0.9767441860465116,500

@@ -1,0 +1,2 @@
+model,category,image_auroc,pixel_auroc,threshold,accuracy,precision,recall,f1,coreset_size
+PatchCore-style,hazelnut,1.0,0.9840863189104297,0.7508410274982452,0.9636363636363636,0.9459459459459459,1.0,0.9722222222222222,500
